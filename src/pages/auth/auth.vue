@@ -1,33 +1,8 @@
 <script setup lang="ts">
-import { h, ref } from 'vue'
-import { Button } from '@/components/ui/button';
-import { Icon } from '@iconify/vue'
-import { FormControl, FormDescription, FormField, FormLabel, FormMessage } from '@/components/ui/form';
-import FormItem from '@/components/ui/form/FormItem.vue';
-import { Input } from '@/components/ui/input';
-import { useForm } from 'vee-validate';
-import { toTypedSchema } from '@vee-validate/zod'
-import * as z from 'zod'
-import { toast } from '@/components/ui/toast'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import loginForm from '@/components/loginForm/loginForm.vue';
-import signupForm from '@/components/signupForm/signupForm.vue';
+import signupForm from '@/components/signUpForm/signupForm.vue';
 
-const formSchema = toTypedSchema(z.object({
-    email: z.string().min(1, { message: "This field has to be filled." }).email("This is not a valid email.")
-}))
-
-const { handleSubmit } = useForm({
-    validationSchema: formSchema,
-})
-
-const onSubmit = handleSubmit((values) => {
-    toast({
-        title: 'You submitted the following values:',
-        description: h('pre', { class: 'mt-2 w-[340px] rounded-md bg-slate-950 p-4' }, h('code', { class: 'text-white' }, JSON.stringify(values, null, 2))),
-    })
-})
 </script>
 <template>
     <div class="container">
@@ -46,7 +21,7 @@ const onSubmit = handleSubmit((values) => {
                         <loginForm />
                     </TabsContent>
                     <TabsContent value="Sign-up">
-                        <signupForm/>
+                        <signupForm />
                     </TabsContent>
                 </Tabs>
             </div>
@@ -75,8 +50,7 @@ const onSubmit = handleSubmit((values) => {
                                 damping: 250,
                                 mass: 0.5,
                             }
-                        }" src="@/assets/img/dark-login-bg.png" class="hidden dark:inline-block"
-                            alt="Dark Mode Image">
+                        }" src="@/assets/img/dark-login-bg.png" class="hidden dark:inline-block" alt="Dark Mode Image">
                     </div>
                 </div>
             </div>
