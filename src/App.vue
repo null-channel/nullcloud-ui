@@ -10,7 +10,9 @@ import { Toaster } from "./components/ui/toast";
         <template #header>
             <NavBar></NavBar>
         </template>
-        <RouterView />
+        <div class="container pb-80">
+            <RouterView />
+        </div>
         <Toaster />
         <template #footer>
             <Footer></Footer>

@@ -4,6 +4,7 @@ import dynamicImport from "vite-plugin-dynamic-import";
 import { fileURLToPath, URL } from "url";
 import tailwind from "tailwindcss";
 import autoprefixer from "autoprefixer";
+import svgLoader from "vite-svg-loader";
 // https://vitejs.dev/config/
 export default defineConfig({
   css: {
@@ -29,5 +30,5 @@ export default defineConfig({
       "@": fileURLToPath(new URL("./src", import.meta.url)),
     },
   },
-  plugins: [vue(), dynamicImport()],
+  plugins: [vue(), dynamicImport(), svgLoader()],
 });

@@ -2,7 +2,34 @@
 import Button from '../ui/button/Button.vue';
 import { useColorMode } from '@vueuse/core'
 import { Icon } from '@iconify/vue'
+import { ref } from 'vue';
+import { useMotion } from '@vueuse/motion';
 
+const spaceShipRotate = ref(null)
+// Get the variant from target motion instance.
+const { apply } = useMotion(spaceShipRotate, {
+    enter: {
+        opacity: 1,
+        rotate: 0,
+        x: 0
+    },
+    leave: {
+        x: 500
+    }
+})
+async function rotateSpaceShip() {
+    await apply({
+        rotate: 90,
+        x: 40,
+        transition: {
+            type: 'spring',
+        },
+    })
+
+}
+async function resetSpaceShip() {
+    await apply("enter")
+}
 const mode = useColorMode()
 function toggleThemeMode() {
     const currentMode = mode.value
@@ -16,7 +43,7 @@ function toggleThemeMode() {
 </script>
 
 <template>
-    <div class="border-b border-border">
+    <div class=" border-b border-border">
         <nav class="flex m-auto p-2 md:max-w-screen-2xl ">
             <ul class="flex flex-grow items-center text-foreground space-x-6">
                 <li class="flex md:hidden">
@@ -36,11 +63,11 @@ function toggleThemeMode() {
                 <li class="hidden md:flex">
 
                     <router-link to="/auth" class="cursor-pointer">
-                        <Button variant="outline"
+                        <Button variant="outline" @mouseover="rotateSpaceShip" @mouseleave="resetSpaceShip"
                             class="gap-2 font-semibold transition-colors hover:text-foreground/80 text-foreground/60">
                             Sign up for Demo <span>
 
-                                <Icon icon="game-icons:space-shuttle" class="w-8 h-8">
+                                <Icon ref="spaceShipRotate" icon="game-icons:space-shuttle" class="w-8 h-8">
                                 </Icon>
 
                             </span>
