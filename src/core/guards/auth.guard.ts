@@ -1,25 +1,20 @@
-// import { ROUTES } from "@constants";
-// import { Ory } from "@helpers";
+import { ROUTES } from "@constants";
+import { useAuth } from "vue-clerk";
 
-// const AUTH_ROUTES = [
-//   ROUTES.LOGIN.name,
-//   ROUTES.RESET_PASSWORD.name,
-//   ROUTES.UPDATE_PASSWORD.name,
-// ];
+const AUTH_ROUTES = [
+  ROUTES.AUTH.name,
+  ROUTES.RESET_PASSWORD.name,
+  ROUTES.UPDATE_PASSWORD.name,
+];
 
-// export default async (to: any) => {
-//   let authenticated = false;
-//   try {
-//     await Ory.toSession();
-//     authenticated = true;
-//   } catch (e) {}
+export default (to: any, from: any) => {
+  const { isSignedIn } = useAuth();
 
-//   if (!AUTH_ROUTES.includes(to.name) && !authenticated) {
-//     return { name: ROUTES.LOGIN.name };
-//   }
-
-//   if (AUTH_ROUTES.includes(to.name) && authenticated) {
-//     return { name: ROUTES.HOME.name };
-//   }
-//   return true;
-// };
+  if (!AUTH_ROUTES.includes(to.name) && !isSignedIn.value) {
+    return { name: ROUTES.AUTH.name };
+  }
+  if (AUTH_ROUTES.includes(to.name) && isSignedIn.value) {
+    return { name: ROUTES.HOME.name };
+  }
+  return true;
+};

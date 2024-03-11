@@ -4,6 +4,7 @@ import { useColorMode } from '@vueuse/core'
 import { Icon } from '@iconify/vue'
 import { ref } from 'vue';
 import { useMotion } from '@vueuse/motion';
+import { Protect } from 'vue-clerk';
 
 const spaceShipRotate = ref(null)
 // Get the variant from target motion instance.
@@ -58,22 +59,39 @@ function toggleThemeMode() {
                         </span>
                     </router-link>
                 </li>
+
             </ul>
             <ul class="flex items-center space-x-6">
                 <li class="hidden md:flex">
-
-                    <router-link to="/auth" class="cursor-pointer">
-                        <Button variant="outline" @mouseover="rotateSpaceShip" @mouseleave="resetSpaceShip"
-                            class="gap-2 font-semibold transition-colors hover:text-foreground/80 text-foreground/60">
-                            Sign up for Demo <span>
-
-                                <Icon ref="spaceShipRotate" icon="game-icons:space-shuttle" class="w-8 h-8">
-                                </Icon>
-
-                            </span>
-                        </Button>
+                    <router-link to="/about" class="text-base cursor-pointer hover:no-underline">
+                        About
                     </router-link>
                 </li>
+                <li class="hidden md:flex">
+                    <router-link to="/contact" class="text-base cursor-pointer hover:no-underline">
+                        Contact
+                    </router-link>
+                </li>
+                <Protect>
+                    <template #fallback>
+                        <li class="hidden md:flex">
+                            <router-link to="/auth" class="cursor-pointer">
+                                <Button variant="outline" @mouseover="rotateSpaceShip" @mouseleave="resetSpaceShip"
+                                    class="gap-2 font-semibold transition-colors hover:text-foreground/80 text-foreground/60">
+                                    Sign up for Demo <span>
+
+                                        <Icon ref="spaceShipRotate" icon="game-icons:space-shuttle" class="w-8 h-8">
+                                        </Icon>
+
+                                    </span>
+                                </Button>
+                            </router-link>
+                        </li>
+                    </template>
+                    <li class="hidden md:flex">
+                        TODO: user-button
+                    </li>
+                </Protect>
                 <li>
                     <Button @click="toggleThemeMode" variant="ghost">
                         <Icon icon="radix-icons:moon"
