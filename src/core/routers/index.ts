@@ -6,13 +6,20 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      ...ROUTES.HOME,
-      component: () => import("@pages/Home/home.vue"),
-    },
-    {
-      ...ROUTES.AUTH,
-      component: () => import("@pages/auth/auth.vue"),
-      beforeEnter: authGuard,
+      path: "/",
+      name: "landing",
+      component: () => import("@pages/landingPages/landingPages.vue"),
+      children: [
+        {
+          ...ROUTES.HOME,
+          component: () => import("@pages/landingPages/Home/home.vue"),
+        },
+        {
+          ...ROUTES.AUTH,
+          component: () => import("@pages/landingPages/auth/auth.vue"),
+          beforeEnter: authGuard,
+        },
+      ],
     },
   ],
 });

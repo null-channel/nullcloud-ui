@@ -1,14 +1,11 @@
 import router from "@router";
 import { AxiosInstance } from "axios";
-import { useUserStore } from "@stores";
 
 
 function axiosInterceptor(axios: AxiosInstance) {
-  const userStore =useUserStore()
 
   axios.interceptors.request.use((request: any) => {
-    request.withCredentials = true;
-
+    // request.withCredentials = true;
     return request;
   });
 
@@ -19,7 +16,6 @@ function axiosInterceptor(axios: AxiosInstance) {
     (error: any) => {
       // notify({ type: "error", text: error.response?.data.message });
       if (error.response?.status == 401) {
-        userStore.$reset()
         router.push("/login");
       }
       throw error;

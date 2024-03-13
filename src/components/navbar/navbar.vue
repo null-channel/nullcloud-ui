@@ -4,10 +4,16 @@ import { useColorMode } from '@vueuse/core'
 import { Icon } from '@iconify/vue'
 import { ref } from 'vue';
 import { useMotion } from '@vueuse/motion';
-import { Protect } from 'vue-clerk';
+import { Protect, useClerk } from 'vue-clerk';
+import { Separator } from '../ui/separator';
+import { AvatarFallback, AvatarImage, Avatar } from '../ui/avatar';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuTrigger } from '../ui/dropdown-menu';
+import { useUser } from 'vue-clerk'
 
 const spaceShipRotate = ref(null)
-// Get the variant from target motion instance.
+
+const { user } = useUser()
+const { signOut } = useClerk();
 const { apply } = useMotion(spaceShipRotate, {
     enter: {
         opacity: 1,
@@ -45,8 +51,8 @@ function toggleThemeMode() {
 
 <template>
     <div class=" border-b border-border">
-        <nav class="flex m-auto p-2 md:max-w-screen-2xl ">
-            <ul class="flex flex-grow items-center text-foreground space-x-6">
+        <nav class="flex m-auto text-foreground p-2 md:max-w-screen-2xl ">
+            <ul class="flex flex-grow items-center space-x-6">
                 <li class="flex md:hidden">
                     <Button variant="ghost">
                         <Icon icon="heroicons-solid:menu" class="h-5 w-5 text-foreground" />
@@ -67,6 +73,7 @@ function toggleThemeMode() {
                         About
                     </router-link>
                 </li>
+                <Separator orientation="vertical" class="h-6" />
                 <li class="hidden md:flex">
                     <router-link to="/contact" class="text-base cursor-pointer hover:no-underline">
                         Contact
@@ -74,12 +81,12 @@ function toggleThemeMode() {
                 </li>
                 <Protect>
                     <template #fallback>
+                        <Separator orientation="vertical" class="h-6" />
                         <li class="hidden md:flex">
                             <router-link to="/auth" class="cursor-pointer">
                                 <Button variant="outline" @mouseover="rotateSpaceShip" @mouseleave="resetSpaceShip"
                                     class="gap-2 font-semibold transition-colors hover:text-foreground/80 text-foreground/60">
                                     Sign up for Demo <span>
-
                                         <Icon ref="spaceShipRotate" icon="game-icons:space-shuttle" class="w-8 h-8">
                                         </Icon>
 
@@ -88,8 +95,38 @@ function toggleThemeMode() {
                             </router-link>
                         </li>
                     </template>
-                    <li class="hidden md:flex">
-                        TODO: user-button
+                    <Separator orientation="vertical" class="h-6" />
+
+                    <li class="hidden  md:flex items-center justify-center">
+                        <DropdownMenu>
+                            <DropdownMenuTrigger class="flex items-center justify-center">
+                                <Avatar class="w-8 h-8">
+                                    <AvatarImage :src="user?.profileImageUrl ?? ''" :alt="user?.fullName" />
+                                </Avatar>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent :align="'end'" class="w-56">
+                                <DropdownMenuLabel>
+                                    My Account
+                                </DropdownMenuLabel>
+                                <DropdownMenuSeparator />
+                                <DropdownMenuItem @click="$clerk.openUserProfile()">
+                                    <Icon icon="lucide:user" class="mr-2 h-4 w-4" />
+                                    <span>Profile</span>
+                                    <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+                                </DropdownMenuItem>
+                                <DropdownMenuItem @click="$router.push('billing')">
+                                    <Icon icon="lucide:credit-card" class="mr-2 h-4 w-4" />
+                                    <span>Billing</span>
+                                    <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
+                                </DropdownMenuItem>
+                                <DropdownMenuSeparator />
+                                <DropdownMenuItem @click="signOut">
+                                    <Icon icon="fe:logout" class="mr-2 h-4 w-4" />
+                                    <span>Log out</span>
+                                    <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
+                                </DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
                     </li>
                 </Protect>
                 <li>

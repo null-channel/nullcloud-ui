@@ -1,5 +1,5 @@
 <template>
-    <div class="relative w-screen min-h-screen h-full">
+    <div class="relative h-full">
         <slot name="header"></slot>
         <slot></slot>
         <slot name="footer"></slot>

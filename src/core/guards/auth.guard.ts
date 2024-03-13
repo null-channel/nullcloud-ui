@@ -13,8 +13,10 @@ export default (to: any, from: any) => {
   if (!AUTH_ROUTES.includes(to.name) && !isSignedIn.value) {
     return { name: ROUTES.AUTH.name };
   }
+
   if (AUTH_ROUTES.includes(to.name) && isSignedIn.value) {
     return { name: ROUTES.HOME.name };
   }
+  
   return true;
 };
