@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { h, ref } from 'vue'
+import { ref } from 'vue'
 import { Button } from '@/components/ui/button';
 import { Icon } from '@iconify/vue'
 import { FormControl, FormDescription, FormField, FormMessage } from '@/components/ui/form';
@@ -8,19 +8,15 @@ import { Input } from '@/components/ui/input';
 import { useForm } from 'vee-validate';
 import { toTypedSchema } from '@vee-validate/zod'
 import * as z from 'zod'
-import { toast } from '@/components/ui/toast'
 import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';
 import { Card, CardContent } from '@/components/ui/card';
 import Autoplay from 'embla-carousel-autoplay'
+import { subscribe } from '@/shared/api/marketing';
 
 const formSchema = toTypedSchema(z.object({
     email: z.string().min(1, { message: "This field has to be filled." }).email("This is not a valid email.")
 }))
-// .refine(async (_e: any) => {
-//     // Where checkIfEmailIsValid makes a request to the backend
-//     // to see if the email is valid.
-//     //return await checkIfEmailIsValid(e);
-// }, "This email is not in our database")
+
 
 const { handleSubmit } = useForm({
     validationSchema: formSchema,
@@ -46,12 +42,7 @@ const logoIcons = ref([
     // it's a hack 
 
 ]);
-const onSubmit = handleSubmit((values) => {
-    toast({
-        title: 'You submitted the following values:',
-        description: h('pre', { class: 'mt-2 w-[340px] rounded-md bg-slate-950 p-4' }, h('code', { class: 'text-white' }, JSON.stringify(values, null, 2))),
-    })
-})
+const onSubmit = handleSubmit(subscribe)
 
 </script>
 <template>
@@ -90,8 +81,11 @@ const onSubmit = handleSubmit((values) => {
                 </Button>
             </form>
         </div>
-        <div class="m-auto rounded-full dark:bg-foreground" v-motion :initial="{ scale: 0 }" :enter="{
-                scale: 1, transition: {
+        <div class="m-auto rounded-full dark:bg-foreground" v-motion :initial="{
+                scale: 0
+            }" :enter="{
+                scale: 1,
+                transition: {
                     delay: 5, duration: 1000, type: 'spring',
                     stiffness: 2500,
                     damping: 250,
@@ -99,9 +93,16 @@ const onSubmit = handleSubmit((values) => {
                 }
             }">
             <img v-motion :initial="{
-                x: -400, y: -400, opacity: 0, scale: 0.4
+                x: -400,
+                y: -400,
+                opacity: 0,
+                scale: 0.4
             }" :enter="{
-                x: 10, y: 10, opacity: 1, scale: 1, transition: {
+                x: 10,
+                y: 10,
+                opacity: 1,
+                scale: 1,
+                transition: {
                     delay: 10, duration: 1000, type: 'spring',
                     stiffness: 2500,
                     damping: 250,
@@ -115,9 +116,14 @@ const onSubmit = handleSubmit((values) => {
     <section class="grid md:grid-cols-2 gap-9 pt-14 md:pt-24">
         <div class="relative m-auto w-full">
             <img v-motion :initial="{
-                x: 0, y: 0, rotate: 0
+                x: 0,
+                y: 0,
+                rotate: 0
             }" :enter="{
-                x: 50, y: 20, rotate: -5, transition: {
+                x: 50,
+                y: 20,
+                rotate: -5,
+                transition: {
                     duration: 2500,
                     repeat: Infinity,
                     ease: 'easeInOut',
@@ -149,7 +155,12 @@ const onSubmit = handleSubmit((values) => {
                 stopOnInteraction: false,
                 stopOnMouseEnter: false,
                 stopOnLastSnap: false,
-            })]" :opts="{ align: 'start', loop: true, watchDrag: false, dragFree: false }">
+            })]" :opts="{
+                align: 'start',
+                loop: true,
+                watchDrag: false,
+                dragFree: false
+            }">
                 <CarouselContent class="-ml-2">
                     <CarouselItem v-for="(imag, index) in logoIcons" :key="index" class="pl-2 basis-1/7 md:basis-16">
                         <div class="p-1">

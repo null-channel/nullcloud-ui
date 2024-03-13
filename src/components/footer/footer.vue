@@ -4,6 +4,21 @@ import { FormItem, FormControl, FormField, FormDescription, FormMessage } from '
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import golangMaskot from "@assets/svg/go.svg"
+import { useForm } from 'vee-validate';
+import { toTypedSchema } from '@vee-validate/zod'
+import * as z from 'zod'
+import { subscribe } from '@/shared/api/marketing';
+
+const formSchema = toTypedSchema(z.object({
+    email: z.string().min(1, { message: "This field has to be filled." }).email("This is not a valid email.")
+}))
+
+
+const { handleSubmit } = useForm({
+    validationSchema: formSchema,
+})
+
+const onSubmit = handleSubmit(subscribe)
 </script>
 
 <template>
@@ -11,7 +26,7 @@ import golangMaskot from "@assets/svg/go.svg"
         <div class="container h-full flex flex-col-reverse">
 
             <div class="flex flex-row w-ful py-4">
-                <div class="flex flex-row justify-center items-center space-x-2 space-y-4">
+                <div class="flex md:flex-row justify-center items-center space-x-2 space-y-4">
                     <a href="">
                         <Icon icon="bxl:github" class="text-background mt-4 w-8 h-8"></Icon>
                     </a>
@@ -33,8 +48,8 @@ import golangMaskot from "@assets/svg/go.svg"
                 </p>
 
             </div>
-            <div class="grid grid-cols-2 h-full pt-24 border-b border-border">
-                <div class="flex flex-col items-start">
+            <div class="grid grid-rows-2 md:grid-cols-2 h-full pt-36 border-b border-border">
+                <div class="flex md:flex-col items-start">
                     <Button variant="link" class="text-background cursor-pointer hover:no-underline">
                         Home
                     </Button>
@@ -47,20 +62,16 @@ import golangMaskot from "@assets/svg/go.svg"
                 </div>
 
                 <div class="my-auto">
-                    <form class=" flex w-full gap-2 pt-5" @submit="onSubmit">
+                    <form class=" flex w-full gap-2 pb-5 md:pt-10" @submit="onSubmit">
                         <FormField v-slot="{ componentField }" name="email">
-                            <FormItem class="w-2/4">
+                            <FormItem class="w-2/3 md:w-2/4">
                                 <FormControl>
-                                    <Input class="" type="text" placeholder="example@null-cloud.com"
-                                        v-bind="componentField" />
+                                    <Input type="text" placeholder="example@null-cloud.com" v-bind="componentField" />
                                 </FormControl>
-                                <FormDescription>
-                                    We will not share your email.
-                                </FormDescription>
                                 <FormMessage />
                             </FormItem>
                         </FormField>
-                        <Button variant="secondary" class="w-1/4 gap-2 font-bold" type="submit">
+                        <Button variant="secondary" class="w-1/3  md:w-1/4 gap-2 font-bold" type="submit">
                             Hope in
                             <Icon icon="heroicons:paper-airplane-20-solid" class="h-5 w-5" />
                         </Button>
@@ -71,9 +82,14 @@ import golangMaskot from "@assets/svg/go.svg"
     </div>
     <div class="absolute right-60 bottom-44 -z-20">
         <golangMaskot class="w-36" v-motion :initial="{
-                        x: 0, y: 90, rotate: 0
+                        x: 0,
+                        y: 90,
+                        rotate: 0
                     }" :enter="{
-                        x: 0, y: 0, rotate: -5, transition: {
+                        x: 0,
+                        y: 0,
+                        rotate: -5,
+                        transition: {
                             duration: 2500,
                             repeat: Infinity,
                             ease: 'easeInOut',
