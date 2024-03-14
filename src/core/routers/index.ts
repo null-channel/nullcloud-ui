@@ -21,6 +21,25 @@ const router = createRouter({
         },
       ],
     },
+    {
+      path: "/dashboards",
+      name: "dashboards",
+      redirect: { path: "dashboards/apps" }, // redirect property
+      component: () => import("@pages/dashboardPages/dashboards.vue"),
+      beforeEnter: authGuard,
+      children: [
+        {
+          name: "apps",
+          path: "apps",
+          component: () => import("@pages/dashboardPages/apps/apps.vue"),
+        },
+        {
+          name: "billing",
+          path: "billing",
+          component: () => import("@pages/dashboardPages/billing/billing.vue"),
+        },
+      ],
+    },
   ],
 });
 export default router;

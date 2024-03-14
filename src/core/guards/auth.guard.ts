@@ -1,5 +1,7 @@
 import { ROUTES } from "@constants";
-import { useAuth } from "vue-clerk";
+import { inject } from "vue";
+import { useAuth, useClerkProvide } from "vue-clerk";
+import { VueCookies } from "vue-cookies";
 
 const AUTH_ROUTES = [
   ROUTES.AUTH.name,
@@ -7,16 +9,17 @@ const AUTH_ROUTES = [
   ROUTES.UPDATE_PASSWORD.name,
 ];
 
-export default (to: any, from: any) => {
-  const { isSignedIn } = useAuth();
+export default async (to: any, from: any) => {
+  const $cookies = inject<VueCookies>("$cookies");
+  const sessionId = $cookies?.get("__session");
+  console.log(sessionId);
 
-  if (!AUTH_ROUTES.includes(to.name) && !isSignedIn.value) {
+  if (!AUTH_ROUTES.includes(to.name) && !sessionId) {
     return { name: ROUTES.AUTH.name };
   }
-
-  if (AUTH_ROUTES.includes(to.name) && isSignedIn.value) {
+  if (AUTH_ROUTES.includes(to.name) && sessionId) {
     return { name: ROUTES.HOME.name };
   }
-  
+
   return true;
 };

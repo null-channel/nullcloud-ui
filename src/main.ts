@@ -6,6 +6,7 @@ import router from "@router";
 import { axiosHelper } from "@helpers";
 import { MotionPlugin } from "@vueuse/motion";
 import { clerkPlugin } from "vue-clerk/plugin";
+import VueCookies from "vue-cookies";
 
 async function run() {
   const pinia = createPinia();
@@ -17,6 +18,7 @@ async function run() {
   app.use(pinia);
   app.use(axiosHelper);
   app.use(router);
+  app.use(VueCookies, { expires: "7d" });
   app.mount("#app");
 }
 run();

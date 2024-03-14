@@ -1,11 +1,13 @@
 import router from "@router";
 import { AxiosInstance } from "axios";
-
+import { useAuth } from "vue-clerk";
 
 function axiosInterceptor(axios: AxiosInstance) {
-
   axios.interceptors.request.use((request: any) => {
-    // request.withCredentials = true;
+    const { userId, getToken } = useAuth();
+    if (userId.value) {
+      request.headers.Authorization = `Bearer ${getToken.value()}`;
+    }
     return request;
   });
 
@@ -23,4 +25,4 @@ function axiosInterceptor(axios: AxiosInstance) {
   );
   return axios;
 }
-export default axiosInterceptor
+export default axiosInterceptor;
