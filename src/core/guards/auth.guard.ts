@@ -12,8 +12,6 @@ const AUTH_ROUTES = [
 export default async (to: any, from: any) => {
   const $cookies = inject<VueCookies>("$cookies");
   const sessionId = $cookies?.get("__session");
-  console.log(sessionId);
-
   if (!AUTH_ROUTES.includes(to.name) && !sessionId) {
     return { name: ROUTES.AUTH.name };
   }

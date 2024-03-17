@@ -4,6 +4,9 @@ import NavUser from "./UserNav.vue"
 import Command from "./command.vue"
 import MainNav from "./mainNav.vue";
 import OrganizationSwitcher from "./OrganizationSwitcher.vue"
+import { Icon } from '@iconify/vue'
+import { Button } from "../ui/button";
+
 </script>
 
 <template>

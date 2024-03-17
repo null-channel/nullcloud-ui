@@ -10,7 +10,7 @@ import Navbar from '@/components/navbar/main.vue';
         <template #header>
             <Navbar></Navbar>
         </template>
-        <div class="container pb-80">
+        <div class="container">
             <RouterView />
         </div>
     </MainLayout>

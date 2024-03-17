@@ -22,7 +22,7 @@ const onSubmit = handleSubmit(subscribe)
 </script>
 
 <template>
-    <div class="absolute  bottom-0  mt-4 w-full p-2 h-72  ">
+    <div class="absolute  bottom-0  mt-4 w-full p-2 h-72">
         <div class="container h-full flex flex-col-reverse">
 
             <div class="flex flex-row w-ful py-4">
