@@ -1,0 +1,29 @@
+name: deploy-dev-manifests
+
+on:
+  push:
+    branches:
+      - 'main'
+  workflow_dispatch:
+
+jobs:
+  build-manifests:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Checkout deployment code
+        uses: actions/checkout@v3
+        with:
+          repository: 'null-channel/nullcloud-deployments'
+          token: ${{ secrets.PAT_GITHUB_DEPLOYMENT }}
+      - name: Update image tag for api service
+        working-directory: ./deployments/null-cloud/base/ui/dev/
+        run: |
+          kustomize edit set image nullchannel/{{ vars.CONTAINER_NAME }}:${{ github.sha }}
+      - name: commit to it.
+        run: |
+          git config --global user.email "null@nulllabs.com"
+          git config --global user.name "GitHub Actions"
+          git add .
+          git commit -m "Update frontend image tag to ${{ github.sha }}"
+          git push
