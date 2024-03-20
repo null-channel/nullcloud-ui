@@ -19,7 +19,7 @@ jobs:
       - name: Update image tag for api service
         working-directory: ./deployments/null-cloud/base/ui/dev/
         run: |
-          kustomize edit set image nullchannel/{{ vars.CONTAINER_NAME }}:${{ github.sha }}
+          kustomize edit set image nullchannel/{{ env.CONTAINER_NAME }}:${{ github.sha }}
       - name: commit to it.
         run: |
           git config --global user.email "null@nulllabs.com"
