@@ -10,7 +10,8 @@ import { useRouter } from 'vue-router';
 
 const { user } = useUser()
 const router = useRouter()
-const { signOut } = useClerk();
+
+const { signOut,openUserProfile } = useClerk();
 const logout = () => {
     signOut()
     router.push({ name: 'home' })
@@ -36,7 +37,7 @@ const logout = () => {
                 </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem @click="$clerk.openUserProfile()">
+            <DropdownMenuItem @click="openUserProfile">
                 <Icon icon="lucide:user" class="mr-2 h-4 w-4" />
                 <span>Profile</span>
                 <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>

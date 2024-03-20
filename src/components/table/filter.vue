@@ -26,7 +26,23 @@ interface DataTableFacetedFilter {
 const selectedValues = defineModel<Set<any>>('selectedValues', { required: true })
 
 const props = defineProps<DataTableFacetedFilter>()
-
+const filterFn = (option: any) => {
+    const isSelected = selectedValues.value.has(option)
+    if (isSelected) {
+        selectedValues.value.delete(option)
+        props.table.removeFilterData(props.title)
+    }
+    else {
+        selectedValues.value.add(option.value)
+    }
+    if (selectedValues.value.size == 0) {
+        props.table.removeFilterData(props.title)
+        return
+    }
+    props.table.setFilterData(props.title, function (val: Application) {
+        return selectedValues.value.has(val[props.title as keyof Application])
+    })
+}
 </script>
 
 <template>
@@ -57,29 +73,19 @@ const props = defineProps<DataTableFacetedFilter>()
             </Button>
         </PopoverTrigger>
         <PopoverContent class="w-[200px] p-0" align="start">
-            <Command
-                :filter-function="(list: DataTableFacetedFilter['options'], term) => list.filter(i => i.label.toLowerCase()?.includes(term))">
+            <Command :filter-function="(list: string[] | Record<string, any>[] | number[] | false[] | true[], term: string) => {
+                    if (Array.isArray(list)) {
+                        (list as Record<string, any>).filter((i: any) => i.label?.toLowerCase()?.includes(term))
+                    } else {
+                        // Handle other types appropriately
+                        return list; // Or perform some other filtering/conversion
+                    }
+                }">
                 <CommandInput :placeholder="title" />
                 <CommandList>
                     <CommandEmpty>No results found.</CommandEmpty>
                     <CommandGroup>
-                        <CommandItem v-for="option in options" :key="option.value" :value="option" @select="(e) => {
-                    const isSelected = selectedValues.has(option.value)
-                    if (isSelected) {
-                        selectedValues.delete(option.value)
-                        table.removeFilterData(title)
-                    }
-                    else {
-                        selectedValues.add(option.value)
-                    }
-                    if (selectedValues.size == 0) {
-                        table.removeFilterData(title)
-                        return
-                    }
-                    table.setFilterData(title, function (val: Application) {
-                        return selectedValues.has(val[title])
-                    })
-                }">
+                        <CommandItem v-for="option in options" :key="option.value" :value="option" @select="filterFn">
                             <div :class="cn(
                     'mr-2 flex h-4 w-4 items-center justify-center rounded-sm border border-primary',
                     selectedValues.has(option.value)

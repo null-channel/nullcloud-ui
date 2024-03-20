@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Icon } from '@iconify/vue'
-import { FormItem, FormControl, FormField, FormDescription, FormMessage } from '../ui/form';
+import { FormItem, FormControl, FormField, FormMessage } from '../ui/form';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import golangMaskot from "@assets/svg/go.svg"

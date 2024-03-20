@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { ComputedRef, h, ref } from 'vue'
+import { h } from 'vue'
 import { Button } from '@/components/ui/button';
-import { Icon } from '@iconify/vue'
-import { FormControl, FormDescription, FormField, FormLabel, FormMessage } from '@/components/ui/form';
+import { FormControl, FormField, FormLabel, FormMessage } from '@/components/ui/form';
 import FormItem from '@/components/ui/form/FormItem.vue';
 import { Input } from '@/components/ui/input';
 import { useForm } from 'vee-validate';

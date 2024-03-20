@@ -1,9 +1,5 @@
 <script setup lang="ts">
-// import type { Application, applicationSchema } from './data/schema'
-// import ChevronLeftIcon from '~icons/radix-icons/chevron-left'
-// import ChevronRightIcon from '~icons/radix-icons/chevron-right'
-// import DoubleArrowLeftIcon from '~icons/radix-icons/double-arrow-left'
-// import DoubleArrowRightIcon from '~icons/radix-icons/double-arrow-right'
+
 import { Icon } from "@iconify/vue"
 
 import { Button } from '@/components/ui/button'

@@ -86,7 +86,7 @@ const handleComplete = (e: string[]) => console.log(e.join(''))
                         <FormControl>
                             <PinInput id="pin-input" class="flex gap-2 items-center mt-1" otp type="number"
                                 :name="componentField.name" @complete="handleComplete"
-                                @update:model-value="(arrStr) => { setPin({ pin: arrStr.filter(Boolean), }) }">
+                                @update:model-value="(arrStr: any) => { setPin({ pin: arrStr.filter(Boolean), }) }">
                                 <PinInputGroup>
                                     <PinInputInput class="w-full" v-for="(id, index) in 6" :key="id" :index="index" />
                                 </PinInputGroup>

@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import applications from '@/components/table/data/applications.json'
-import DataTable from '@/components/table/dataTable.vue'
-import { columns } from '@/components/table/columns'
 import CustomTable from "@/components/table/table.vue"
 </script>
 

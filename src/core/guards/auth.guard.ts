@@ -1,6 +1,5 @@
 import { ROUTES } from "@constants";
 import { inject } from "vue";
-import { useAuth, useClerkProvide } from "vue-clerk";
 import { VueCookies } from "vue-cookies";
 
 const AUTH_ROUTES = [
@@ -9,7 +8,7 @@ const AUTH_ROUTES = [
   ROUTES.UPDATE_PASSWORD.name,
 ];
 
-export default async (to: any, from: any) => {
+export default async (to: any, _: any) => {
   const $cookies = inject<VueCookies>("$cookies");
   const sessionId = $cookies?.get("__session");
   if (!AUTH_ROUTES.includes(to.name) && !sessionId) {

@@ -59,38 +59,44 @@ const groups = [
         ],
     },
 ]
-
 type organization = (typeof groups)[number]['organizations'][number]
 
 const open = ref(false)
-const showNeworganizationDialog = ref(false)
-const selectedorganization = ref<organization>(groups[0].organizations[0])
+const showNewOrganizationDialog = ref(false)
+const selectedOrganization = ref<organization>(groups[0].organizations[0])
 </script>
 
 <template>
-    <Dialog v-model:open="showNeworganizationDialog">
+    <Dialog v-model:open="showNewOrganizationDialog">
         <Popover v-model:open="open">
             <PopoverTrigger as-child>
                 <Button variant="outline" role="combobox" aria-expanded="open" aria-label="Select a organization"
                     :class="cn('w-[200px] justify-between', $attrs.class ?? '')">
                     <Avatar class="mr-2 h-5 w-5">
-                        <AvatarImage :src="`https://avatar.vercel.sh/${selectedorganization.value}.png`"
-                            :alt="selectedorganization.label" />
+                        <AvatarImage :src="`https://avatar.vercel.sh/${selectedOrganization.value}.png`"
+                            :alt="selectedOrganization.label" />
                         <AvatarFallback>SC</AvatarFallback>
                     </Avatar>
-                    {{ selectedorganization.label }}
+                    {{ selectedOrganization.label }}
                     <Icon icon="radix-icons:caret-sort" class="ml-auto h-4 w-4 shrink-0 opacity-50" />
                 </Button>
             </PopoverTrigger>
             <PopoverContent class="w-[200px] p-0">
-                <Command :filter-function="(list, term) => list.filter(i => i.label?.toLowerCase()?.includes(term))">
+                <Command :filter-function="(list: string[] | Record<string, any>[] | number[] | false[] | true[], term: string) => {
+        if (Array.isArray(list)) {
+            (list as Record<string, any>).filter((i: any) => i.label?.toLowerCase()?.includes(term))
+        } else {
+            // Handle other types appropriately
+            return list; // Or perform some other filtering/conversion
+        }
+    }">
                     <CommandList>
                         <CommandInput placeholder="Search organization..." />
                         <CommandEmpty>No organization found.</CommandEmpty>
                         <CommandGroup v-for="group in groups" :key="group.label" :heading="group.label">
                             <CommandItem v-for="organization in group.organizations" :key="organization.value"
                                 :value="organization" class="text-sm" @select="() => {
-        selectedorganization = organization
+        selectedOrganization = organization
         open = false
     }">
                                 <Avatar class="mr-2 h-5 w-5">
@@ -100,7 +106,7 @@ const selectedorganization = ref<organization>(groups[0].organizations[0])
                                 </Avatar>
                                 {{ organization.label }}
                                 <Icon icon="radix-icons:check" :class="cn('ml-auto h-4 w-4',
-        selectedorganization.value === organization.value
+        selectedOrganization.value === organization.value
             ? 'opacity-100'
             : 'opacity-0',
     )" />
@@ -113,7 +119,7 @@ const selectedorganization = ref<organization>(groups[0].organizations[0])
                             <DialogTrigger as-child>
                                 <CommandItem value="create-organization" @select="() => {
         open = false
-        showNeworganizationDialog = true
+        showNewOrganizationDialog = true
     }">
                                     <Icon icon="radix-icons:plus-circled" class="mr-2 h-5 w-5" />
                                     Create an Organization
@@ -162,7 +168,7 @@ const selectedorganization = ref<organization>(groups[0].organizations[0])
                 </div>
             </div>
             <DialogFooter>
-                <Button variant="outline" @click="showNeworganizationDialog = false">
+                <Button variant="outline" @click="showNewOrganizationDialog = false">
                     Cancel
                 </Button>
                 <Button type="submit">
