@@ -1,5 +1,6 @@
 # build stage
 FROM node:lts-alpine as build-stage
+ARG VITE_CLERK_PUBLISHABLE_KEY
 WORKDIR /app
 COPY package*.json ./
 RUN npm install

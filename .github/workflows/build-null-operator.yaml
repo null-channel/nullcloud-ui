@@ -27,6 +27,8 @@ jobs:
       -
         name: Build and push API
         uses: docker/build-push-action@v4
+        env:
+          VITE_CLERK_PUBLISHABLE_KEY: ${{ secrets.VITE_CLERK_PUBLIC_KEY }}
         with:
           context: ./
           push: true
