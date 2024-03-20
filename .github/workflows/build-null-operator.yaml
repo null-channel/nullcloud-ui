@@ -30,4 +30,4 @@ jobs:
         with:
           context: ./
           push: true
-          tags: nullchannel/${{ env.CONTAINER_NAME }}:${{ github.sha }}      
+          tags: nullchannel/${{ vars.CONTAINER_NAME }}:${{ github.sha }}      
