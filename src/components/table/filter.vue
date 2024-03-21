@@ -15,7 +15,6 @@ import { Separator } from '@/components/ui/separator'
 import { cn } from '@/lib/utils'
 
 interface DataTableFacetedFilter {
-    table?: any
     title: string
     options: {
         label: string
@@ -24,25 +23,29 @@ interface DataTableFacetedFilter {
     }[]
 }
 const selectedValues = defineModel<Set<any>>('selectedValues', { required: true })
+const table = defineModel<any>('table', { required: true })
 
 const props = defineProps<DataTableFacetedFilter>()
-const filterFn = (option: any) => {
-    const isSelected = selectedValues.value.has(option)
+const handleSelect = (option: any) => {
+    const isSelected = selectedValues.value.has(option.value);
+
     if (isSelected) {
-        selectedValues.value.delete(option)
-        props.table.removeFilterData(props.title)
+        selectedValues.value.delete(option.value);
+        table.value.removeFilterData(props.title);
+    } else {
+        selectedValues.value.add(option.value);
     }
-    else {
-        selectedValues.value.add(option.value)
+
+    if (selectedValues.value.size === 0) {
+        table.value.removeFilterData(props.title);
+        return;
     }
-    if (selectedValues.value.size == 0) {
-        props.table.removeFilterData(props.title)
-        return
-    }
-    props.table.setFilterData(props.title, function (val: Application) {
-        return selectedValues.value.has(val[props.title as keyof Application])
-    })
-}
+
+    table.value.setFilterData(props.title, (val: Application) => {
+        return selectedValues.value.has(val[props.title as keyof Application]);
+    });
+};
+
 </script>
 
 <template>
@@ -85,13 +88,15 @@ const filterFn = (option: any) => {
                 <CommandList>
                     <CommandEmpty>No results found.</CommandEmpty>
                     <CommandGroup>
-                        <CommandItem v-for="option in options" :key="option.value" :value="option" @select="filterFn">
+                        <CommandItem v-for="option in options" :key="option.value" :value="option"
+                            @select="(_: any) => handleSelect(option)">
                             <div :class="cn(
                     'mr-2 flex h-4 w-4 items-center justify-center rounded-sm border border-primary',
                     selectedValues.has(option.value)
                         ? 'bg-primary text-primary-foreground'
                         : 'opacity-50 [&_svg]:invisible',
                 )">
+                cd 
                                 <Icon icon="radix-icons:check" :class="cn('h-4 w-4')" />
                             </div>
                             <component :is="option.icon" v-if="option.icon"

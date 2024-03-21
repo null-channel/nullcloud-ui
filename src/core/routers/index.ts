@@ -6,6 +6,11 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
+      ...ROUTES.COMPLETE_REGISTRATION,
+      component: ()=> import('@pages/completeRegistration/completeRegistration.vue'),
+      beforeEnter: authGuard,
+    },
+    {
       path: "/",
       name: "landing",
       component: () => import("@pages/landingPages/landingPages.vue"),

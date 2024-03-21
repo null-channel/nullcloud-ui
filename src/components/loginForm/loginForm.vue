@@ -9,11 +9,14 @@ import { toTypedSchema } from '@vee-validate/zod'
 import * as z from 'zod'
 import { toast } from '@/components/ui/toast'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { useSignIn } from 'vue-clerk'
+import { useAuth, useSignIn } from 'vue-clerk'
 import { useRouter } from 'vue-router';
+import { useUserStore } from '@/core/stores';
 
 const route = useRouter();
 const { isLoaded, signIn, setActive } = useSignIn()
+const {signOut} = useAuth()
+const userStore = useUserStore()
 const formSchema = toTypedSchema(z.object({
     email: z.string().min(1, { message: "This field has to be filled." }).email("This is not a valid email."),
     password: z.string().min(1, { message: "This field has to be filled." })
@@ -34,9 +37,23 @@ const onSubmit = handleSubmit(async (values) => {
                     title: 'Success:',
                     description: h('p', { class: 'text-foreground font-black' }, "Successfully logged in"),
                 })
+                try {
+                    const isNewUser = await userStore.checkNewUser()
+                    if (!isNewUser) {
+                        route.push({ name: 'home' });
+                        return
+                    }
+                    route.push({ name: 'complete-registration' });
+                } catch (err: any) {
+                    // signout token is invalid in the backend
+                    console.error(err)
+                    signOut.value()
+                    toast({
+                        title: 'Error:',
+                        description: h('p', { class: 'text-destructive font-black' }, "Somthing happend . Please Try again later."),
+                    })
+                }
 
-                route.push({ name: 'home' });
-                return
             }
         }
     } catch (err: any) {
@@ -59,8 +76,6 @@ const onSubmit = handleSubmit(async (values) => {
             <CardHeader>
                 <CardTitle>Login</CardTitle>
                 <CardDescription>
-
-
                 </CardDescription>
             </CardHeader>
             <CardContent v-if="!isLoaded" class="flex items-center justify-center">

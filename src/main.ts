@@ -16,9 +16,9 @@ async function run() {
     publishableKey: import.meta.env.VITE_CLERK_PUBLISHABLE_KEY,
   });
   app.use(pinia);
-  app.use(axiosHelper);
   app.use(router);
   app.use(VueCookies, { expires: "7d" });
+  app.use(axiosHelper);
   app.mount("#app");
 }
 run();

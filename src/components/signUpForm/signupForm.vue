@@ -40,7 +40,6 @@ const onPinSubmit = handelPinSubmit(async ({ pin }) => {
                 // Please see https://clerk.com/docs/references/react/use-sign-up#result-status for  more information
                 console.log(JSON.stringify(completeSignUp, null, 2));
             }
-
             // Check the status to see if it is complete
             // If complete, the user has been created -- set the session active
             if (completeSignUp.status === "complete") {
@@ -51,7 +50,7 @@ const onPinSubmit = handelPinSubmit(async ({ pin }) => {
                     description: h('p', { class: 'text-foreground font-black' }, "Welcome to the Null cloud"),
                 })
                 // Redirect the user to a post sign-up route
-                route.push("/");
+                route.push({ name: 'complete-registration' });
             }
         }
     }

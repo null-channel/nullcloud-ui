@@ -1,13 +1,14 @@
 import router from "@router";
 import { AxiosInstance } from "axios";
-import { useAuth } from "vue-clerk";
-
+import Cookie from 'universal-cookie'
 function axiosInterceptor(axios: AxiosInstance) {
   axios.interceptors.request.use((request: any) => {
-    const { userId, getToken } = useAuth();
-    if (userId.value) {
-      request.headers.Authorization = `Bearer ${getToken.value()}`;
+    const $cookies = new Cookie();
+    const token = $cookies.get("__session")
+    if (token) {
+      request.headers.Authorization = `Bearer ${token}`;
     }
+
     return request;
   });
 
@@ -18,7 +19,7 @@ function axiosInterceptor(axios: AxiosInstance) {
     (error: any) => {
       // notify({ type: "error", text: error.response?.data.message });
       if (error.response?.status == 401) {
-        router.push("/login");
+        router.push("/auth");
       }
       throw error;
     }
