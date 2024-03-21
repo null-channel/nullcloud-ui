@@ -11,10 +11,11 @@ const AUTH_ROUTES = [
 export default async (to: any, _: any) => {
   const $cookies = inject<VueCookies>("$cookies");
   const sessionId = $cookies?.get("__session");
+
   if (!AUTH_ROUTES.includes(to.name) && !sessionId) {
     return { name: ROUTES.AUTH.name };
   }
-  if (AUTH_ROUTES.includes(to.name) && sessionId) {
+  if (AUTH_ROUTES.includes(to.name) && !!sessionId) {
     return { name: ROUTES.HOME.name };
   }
 

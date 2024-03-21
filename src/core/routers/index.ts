@@ -1,10 +1,16 @@
 import { ROUTES } from "@constants";
 import { createRouter, createWebHistory } from "vue-router";
 import authGuard from "../guards/auth.guard";
+import isNewGuard from "../guards/isNew.guard";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
+    {
+      ...ROUTES.COMPLETE_REGISTRATION,
+      component: ()=> import('@pages/completeRegistration/completeRegistration.vue'),
+      beforeEnter: isNewGuard,
+    },
     {
       path: "/",
       name: "landing",
@@ -13,11 +19,12 @@ const router = createRouter({
         {
           ...ROUTES.HOME,
           component: () => import("@pages/landingPages/Home/home.vue"),
+          beforeEnter: isNewGuard,
         },
         {
           ...ROUTES.AUTH,
           component: () => import("@pages/landingPages/auth/auth.vue"),
-          beforeEnter: authGuard,
+          beforeEnter: [isNewGuard,authGuard],
         },
       ],
     },
@@ -26,7 +33,7 @@ const router = createRouter({
       name: "dashboards",
       redirect: { path: "dashboards/apps" }, // redirect property
       component: () => import("@pages/dashboardPages/dashboards.vue"),
-      beforeEnter: authGuard,
+      beforeEnter: [isNewGuard,authGuard],
       children: [
         {
           name: "apps",
