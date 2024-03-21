@@ -2,11 +2,15 @@ import { defineStore } from "pinia";
 
 const useUserStore = defineStore("user", {
   state: () => ({
-    isNew: false,
   }),
   getters: {
+    isNew(): boolean {
+      const isNew = localStorage.getItem("isNewUser")
+      return isNew ? JSON.parse(isNew) : false;
+    },
     profile() {
-      return localStorage.getItem("profile")
+      const profile = localStorage.getItem("profile")
+      return profile ? JSON.parse(profile) : null;
     },
     user() {
       const user = localStorage.getItem("session");
@@ -27,7 +31,7 @@ const useUserStore = defineStore("user", {
           (err) => {
             if (err.response.status) {
               console.info("✨ welcome a New user has joined")
-              this.isNew = true
+              localStorage.setItem('isNewUser', JSON.stringify(true))
               return true
             }
             throw new Error('unauthorized')

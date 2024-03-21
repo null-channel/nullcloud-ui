@@ -26,21 +26,24 @@ import {
 import { toast } from '@/components/ui/toast'
 import Input from '@/components/ui/input/Input.vue'
 import { useColorMode } from '@vueuse/core'
+import { Checkbox } from '@/components/ui/checkbox'
+import { Label } from '@/components/ui/label'
 
 const formSchema = toTypedSchema(z.object({
-  firstName:z.string(
+  firstName: z.string(
     {
-    required_error: 'A First name is required.',
+      required_error: 'A First name is required.',
     }
   ).min(1),
-  lastName:z.string(
+  lastName: z.string(
     {
-    required_error: 'A Last name is required.',
+      required_error: 'A Last name is required.',
     }
   ).min(1),
   dob: z.date({
     required_error: 'A date of birth is required.',
   }),
+  consentForNewsLetter: z.boolean().optional()
 }))
 
 const { handleSubmit } = useForm({
@@ -67,7 +70,7 @@ const onSubmit = handleSubmit((values) => {
           You are almost there.
         </h1>
         <h2 class="text-muted-foreground">
-          Join an army of productive Software Developper. 
+          Join an army of productive Software Developper.
         </h2>
       </header>
       <form class="space-y-8" @submit="onSubmit">
@@ -97,9 +100,10 @@ const onSubmit = handleSubmit((values) => {
             <Popover>
               <PopoverTrigger as-child>
                 <FormControl>
-                  <Button variant="outline" :class="cn('ps-3 text-start font-normal',!value && 'text-muted-foreground',)">
+                  <Button variant="outline"
+                    :class="cn('ps-3 text-start font-normal', !value && 'text-muted-foreground',)">
                     <span>{{ value ? format(value, "PPP") : "Pick a date" }}</span>
-                    <Icon  icon="lucide:calendar" class="ms-auto h-4 w-4 opacity-50" />
+                    <Icon icon="lucide:calendar" class="ms-auto h-4 w-4 opacity-50" />
                   </Button>
                 </FormControl>
               </PopoverTrigger>
@@ -110,6 +114,15 @@ const onSubmit = handleSubmit((values) => {
             <FormDescription>
               Your date of birth is used to calculate your age.
             </FormDescription>
+            <FormMessage />
+          </FormItem>
+        </FormField>
+        <FormField v-slot="{ componentField }" name="consentForNewsLetter">
+          <FormItem class="flex flex-row items-center space-x-2">
+            <FormControl >
+              <Checkbox id="terms" />
+            </FormControl>
+            <Label for="terms" class="!mt-0" v-bind="componentField" >Accept terms and conditions<span class="text-destructive">*</span></Label>
             <FormMessage />
           </FormItem>
         </FormField>
