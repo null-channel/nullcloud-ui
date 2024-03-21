@@ -27,15 +27,15 @@ const onSubmit = handleSubmit(subscribe)
 
             <div class="flex flex-row w-ful py-4">
                 <div class="flex md:flex-row justify-center items-center space-x-2 space-y-4">
-                    <a href="">
+                    <a href="https://github.com/null-channel">
                         <Icon icon="bxl:github" class="text-background mt-4 w-8 h-8"></Icon>
                     </a>
-                    <a href="">
+                    <a href="https://discord.gg/qRfJJbDq">
                         <Icon icon="bxl:discord-alt" class="text-background w-8 h-8"></Icon>
-                    </a> <a href="">
+                    </a> <a href="https://www.youtube.com/@NullLabs">
                         <Icon icon="bxl:youtube" class="text-background w-8 h-8"></Icon>
                     </a>
-                    <a href="">
+                    <a href="https://www.twitch.tv/marekcounts">
                         <Icon icon="bxl:twitch" class="text-background w-8 h-8"></Icon>
                     </a>
                 </div>
