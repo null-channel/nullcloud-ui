@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 </script>
 <template>
     <main class="flex flex-col mt-12 md:mt-24">
