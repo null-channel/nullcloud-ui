@@ -11,14 +11,6 @@ const router = createRouter({
       component: () => import("@pages/landingPages/landingPages.vue"),
       children: [
         {
-          ...ROUTES.CONTACT,
-          component: () => import("@pages/landingPages/contact/contact.vue")
-        },
-        {
-          ...ROUTES.ABOUT,
-          component: () => import("@pages/landingPages/about/about.vue")
-        },
-        {
           ...ROUTES.HOME,
           component: () => import("@pages/landingPages/Home/home.vue"),
         },
@@ -27,8 +19,17 @@ const router = createRouter({
           component: () => import("@pages/landingPages/auth/auth.vue"),
           beforeEnter: authGuard,
         },
+        {
+          ...ROUTES.CONTACT,
+          component: () => import("@pages/landingPages/contact/contact.vue")
+        },
+        {
+          ...ROUTES.ABOUT,
+          component: () => import("@pages/landingPages/about/about.vue")
+        },
       ],
     },
+    
     {
       path: "/dashboards",
       name: "dashboards",

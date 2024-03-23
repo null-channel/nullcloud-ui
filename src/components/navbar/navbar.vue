@@ -51,7 +51,7 @@ async function resetSpaceShip() {
                     </router-link>
                 </li>
                 <li class="hidden md:flex">
-                    <router-link to="/about" :class="{ 'text-muted-foreground': !($route.name == 'home') }"
+                    <router-link to="/" :class="{ 'text-muted-foreground': !($route.name == 'home') }"
                         class="text-sm font-medium transition-colors hover:text-primary">
                         Home
                     </router-link>
