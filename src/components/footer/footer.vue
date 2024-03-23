@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Icon } from '@iconify/vue'
-import golangMaskot from "@assets/svg/go.svg"
+// import golangMaskot from "@assets/svg/go.svg"
 import SocialLinks from "@/components/footer/socialLinks.vue"
 import SiteMap from "@/components/footer/siteMap.vue"
 import NewsLetterForm from "@/components/footer/newsLetterForm.vue"

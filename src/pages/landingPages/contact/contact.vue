@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import ContactForm from "@/components/contactForm/contactForm.vue"
 import { Icon } from '@iconify/vue'
 
