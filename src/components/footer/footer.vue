@@ -1,24 +1,9 @@
 <script setup lang="ts">
 import { Icon } from '@iconify/vue'
-import { FormItem, FormControl, FormField, FormMessage } from '../ui/form';
-import { Input } from '../ui/input';
-import { Button } from '../ui/button';
 import golangMaskot from "@assets/svg/go.svg"
-import { useForm } from 'vee-validate';
-import { toTypedSchema } from '@vee-validate/zod'
-import * as z from 'zod'
-import { subscribe } from '@/shared/api/marketing';
-
-const formSchema = toTypedSchema(z.object({
-    email: z.string().min(1, { message: "This field has to be filled." }).email("This is not a valid email.")
-}))
-
-
-const { handleSubmit } = useForm({
-    validationSchema: formSchema,
-})
-
-const onSubmit = handleSubmit(subscribe)
+import SocialLinks from "@/components/footer/socialLinks.vue"
+import SiteMap from "@/components/footer/siteMap.vue"
+import NewsLetterForm from "@/components/footer/newsLetterForm.vue"
 </script>
 
 <template>
@@ -26,19 +11,7 @@ const onSubmit = handleSubmit(subscribe)
         <div class="container h-full flex flex-col-reverse">
 
             <div class="flex flex-row w-ful py-4">
-                <div class="flex md:flex-row justify-center items-center space-x-2 space-y-4">
-                    <a href="">
-                        <Icon icon="bxl:github" class="text-background mt-4 w-8 h-8"></Icon>
-                    </a>
-                    <a href="">
-                        <Icon icon="bxl:discord-alt" class="text-background w-8 h-8"></Icon>
-                    </a> <a href="">
-                        <Icon icon="bxl:youtube" class="text-background w-8 h-8"></Icon>
-                    </a>
-                    <a href="">
-                        <Icon icon="bxl:twitch" class="text-background w-8 h-8"></Icon>
-                    </a>
-                </div>
+                <SocialLinks />
                 <p class="flex w-full items-center justify-center text-background gap-2 text-xs md:text-base">
                     Made by the Developer for developer. Powered by <span>
 
@@ -48,39 +21,18 @@ const onSubmit = handleSubmit(subscribe)
                 </p>
 
             </div>
-            <div class="grid grid-rows-2 md:grid-cols-2 h-full pt-36 border-b border-border">
+            <div class="grid grid-rows-2 md:grid-cols-2 h-full pt-24 border-b border-border">
                 <div class="flex md:flex-col items-start">
-                    <Button variant="link" class="text-background cursor-pointer hover:no-underline">
-                        Home
-                    </Button>
-                    <Button variant="link" class="text-background cursor-pointer hover:no-underline">
-                        Sign up
-                    </Button>
-                    <Button variant="link" class="text-background cursor-pointer hover:no-underline">
-                        Contact
-                    </Button>
+                    <SiteMap />
                 </div>
 
-                <div class="my-auto">
-                    <form class=" flex w-full gap-2 pb-5 md:pt-10" @submit="onSubmit">
-                        <FormField v-slot="{ componentField }" name="email">
-                            <FormItem class="w-2/3 md:w-2/4">
-                                <FormControl>
-                                    <Input type="text" placeholder="example@null-cloud.com" v-bind="componentField" />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        </FormField>
-                        <Button variant="secondary" class="w-1/3  md:w-1/4 gap-2 font-bold" type="submit">
-                            Hope in
-                            <Icon icon="heroicons:paper-airplane-20-solid" class="h-5 w-5" />
-                        </Button>
-                    </form>
+                <div class="flex flex-col translate-y-24  ">
+                    <NewsLetterForm/>
                 </div>
             </div>
         </div>
     </div>
-    <div class="absolute right-60 bottom-44 -z-20">
+    <!-- <div class="absolute right-60 bottom-44 -z-20">
         <golangMaskot class="w-36" v-motion :initial="{
                         x: 0,
                         y: 90,
@@ -96,7 +48,7 @@ const onSubmit = handleSubmit(subscribe)
                             repeatType: 'mirror'
                         }
                     }" />
-    </div>
+    </div> -->
     <div class="absolute  left-0 bottom-0 w-full h-fitx bg-foreground h-72 md:h-auto md:bg-transparent -z-10">
 
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" class="dark:text-white text-black">
